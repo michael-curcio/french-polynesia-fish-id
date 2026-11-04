@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="sea" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#36c3cf"/>
+      <stop offset="0.45" stop-color="#0b7f9e"/>
+      <stop offset="1" stop-color="#062a3f"/>
+    </linearGradient>
+    <linearGradient id="fish" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ffe2d2"/>
+      <stop offset="1" stop-color="#f3a98a"/>
+    </linearGradient>
+  </defs>
+  <rect width="512" height="512" rx="112" fill="url(#sea)"/>
+  <path d="M130 0 L200 0 L140 512 L100 512 Z" fill="#ffffff" opacity="0.07"/>
+  <path d="M300 0 L345 0 L325 512 L288 512 Z" fill="#ffffff" opacity="0.05"/>
+  <g transform="translate(250 250)">
+    <!-- trailing dorsal spines (hogfish) -->
+    <path d="M-80 -80 C-88 -122 -106 -150 -128 -170" stroke="#ffe2d2" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <path d="M-54 -86 C-56 -126 -70 -154 -88 -178" stroke="#ffe2d2" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <path d="M-28 -88 C-24 -128 -32 -156 -46 -180" stroke="#ffe2d2" stroke-width="9" fill="none" stroke-linecap="round"/>
+    <!-- body -->
+    <path d="M-222 16 C-196 8 -176 -14 -156 -46 C-126 -84 -64 -92 -10 -88 C70 -84 130 -52 160 -8 C130 40 70 78 -10 80 C-80 80 -140 62 -172 36 C-188 28 -204 24 -222 22 Z" fill="url(#fish)"/>
+    <!-- soft dorsal and anal -->
+    <path d="M-10 -86 C50 -96 110 -80 150 -30 L120 -40 C90 -62 40 -78 -10 -80 Z" fill="#f08f6c"/>
+    <path d="M20 78 C70 80 110 62 140 24 L118 26 C90 52 60 66 20 70 Z" fill="#f08f6c"/>
+    <!-- tail -->
+    <path d="M150 -6 L226 -72 C214 -26 214 26 226 70 Z" fill="#f08f6c"/>
+    <!-- eye -->
+    <circle cx="-140" cy="-22" r="12" fill="#1b1b2a"/>
+    <circle cx="-143" cy="-25" r="4" fill="#ffffff"/>
+  </g>
+  <!-- sling spear -->
+  <path d="M40 440 L470 384" stroke="#f3d04a" stroke-width="10" stroke-linecap="round"/>
+  <path d="M470 384 L438 372 L444 396 Z" fill="#f3d04a"/>
+</svg>
