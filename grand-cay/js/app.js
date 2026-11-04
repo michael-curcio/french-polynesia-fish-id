@@ -101,18 +101,23 @@ function simpleBar(withSearch) {
   appbar.innerHTML = `<div class="appbar-inner"><h1>Grand Cay Fish ID</h1>${withSearch ? `<button class="icon-btn" data-action="search" aria-label="Search fish">${icon('search')}</button>` : ''}</div>`;
 }
 
+// Views live in plain #names (#home, #deck-reef-3, #sp-hogfish, #fish-id, #fish-info, #rules)
+// so links work the same on GitHub Pages and inside a hosted artifact frame.
+function setHash(h) {
+  try { history.replaceState(null, '', h); } catch { location.hash = h; }
+}
 function route() {
   if (cleanup) { cleanup(); cleanup = null; }
   closeOverlays();
-  const parts = location.hash.replace(/^#\/?/, '').split('/').filter(Boolean).map(decodeURIComponent);
+  const h = decodeURIComponent(location.hash.replace(/^#\/?/, ''));
   shell.classList.remove('in-deck');
-  const [head, a, b] = parts;
-  if (!head) renderHome();
-  else if (head === 'deck') renderDeck(a, Number(b) || 0);
-  else if (head === 'fish') openFish(a);
-  else if (head === 'id') renderFishId();
-  else if (head === 'info') renderFishInfo();
-  else if (head === 'rules') renderRules();
+  let m;
+  if (!h || h === 'home') renderHome();
+  else if ((m = h.match(/^deck-(.+?)(?:-(\d+))?$/))) renderDeck(m[1], Number(m[2]) || 0);
+  else if ((m = h.match(/^sp-(.+)$/))) openFish(m[1]);
+  else if (h === 'fish-id') renderFishId();
+  else if (h === 'fish-info') renderFishInfo();
+  else if (h === 'rules') renderRules();
   else renderHome();
 }
 window.addEventListener('hashchange', () => { route(); window.scrollTo(0, 0); });
@@ -131,9 +136,9 @@ function deckName(deckId) {
 }
 function openFish(id) {
   const s = BY_ID[id];
-  if (!s) { location.replace('#/'); return; }
+  if (!s) { location.replace('#home'); return; }
   const list = deckSpecies(s.group);
-  history.replaceState(null, '', `#/deck/${s.group}/${list.indexOf(s)}`);
+  setHash(`#deck-${s.group}-${list.indexOf(s)}`);
   renderDeck(s.group, list.indexOf(s));
 }
 
@@ -155,19 +160,19 @@ function renderHome() {
     <p class="intro">Learn the fish of Grand Cay, Abaco: what to shoot and what to leave.</p>
     <div class="section-label">Season right now</div>
     <div class="season">
-      <a href="#/fish/nassau-grouper"><b>Nassau grouper</b><span class="state ${grouper.open ? 'open' : 'closed'}">${grouper.open ? 'Open' : 'Closed'}</span><small>${esc(grouper.text.split(' · ')[1])}</small></a>
-      <a href="#/fish/spiny-lobster"><b>Crawfish</b><span class="state ${craw.open ? 'open' : 'closed'}">${craw.open ? 'Open' : 'Closed'}</span><small>${esc(craw.text.split(' · ')[1])}</small></a>
+      <a href="#sp-nassau-grouper"><b>Nassau grouper</b><span class="state ${grouper.open ? 'open' : 'closed'}">${grouper.open ? 'Open' : 'Closed'}</span><small>${esc(grouper.text.split(' · ')[1])}</small></a>
+      <a href="#sp-spiny-lobster"><b>Crawfish</b><span class="state ${craw.open ? 'open' : 'closed'}">${craw.open ? 'Open' : 'Closed'}</span><small>${esc(craw.text.split(' · ')[1])}</small></a>
     </div>
     <div class="section-label">Habitats</div>
     <div class="tiles">
-      ${GROUPS.map((g) => tile(`#/deck/${g.id}`, g.name, g.blurb, SPECIES.filter((s) => s.group === g.id).length, g.hero)).join('')}
+      ${GROUPS.map((g) => tile(`#deck-${g.id}`, g.name, g.blurb, SPECIES.filter((s) => s.group === g.id).length, g.hero)).join('')}
     </div>
     <div class="section-label">Decks</div>
     <div class="tiles">
-      ${DECKS.map((d) => tile(`#/deck/${d.id}`, d.name, d.blurb, SPECIES.filter(d.filter).length, d.hero)).join('')}
+      ${DECKS.map((d) => tile(`#deck-${d.id}`, d.name, d.blurb, SPECIES.filter(d.filter).length, d.hero)).join('')}
     </div>
     <div class="section-label">Bahamas rules</div>
-    <a class="tile rules-tile" href="#/rules">
+    <a class="tile rules-tile" href="#rules">
       <div class="tile-text"><strong>Spearfishing rules</strong><span>What you need to know before you dive</span>
       <ul><li>Sling or pole spear only</li><li>No scuba</li><li>200 yards from shore</li><li>No parks</li></ul></div>
     </a>
@@ -178,14 +183,14 @@ function renderHome() {
 /* ---------------- species deck ---------------- */
 function renderDeck(deckId, index) {
   const list = deckSpecies(deckId);
-  if (!list || !list.length) { location.replace('#/'); return; }
+  if (!list || !list.length) { location.replace('#home'); return; }
   index = Math.max(0, Math.min(index, list.length - 1));
   const s = list[index];
   shell.classList.add('in-deck');
   setTab('study');
   appbar.innerHTML = `
     <div class="appbar-inner">
-      <a class="icon-btn" href="#/" aria-label="Back to habitats">${icon('back')}</a>
+      <a class="icon-btn" href="#home" aria-label="Back to habitats">${icon('back')}</a>
       <div class="deck-title"><strong>${esc(deckName(deckId))}</strong><span>${index + 1} / ${list.length}</span></div>
       <button class="icon-btn" data-action="search" aria-label="Search fish">${icon('search')}</button>
     </div>
@@ -202,7 +207,7 @@ function renderDeck(deckId, index) {
   const go = (d) => {
     const ni = index + d;
     if (ni < 0 || ni >= list.length) return;
-    history.replaceState(null, '', `#/deck/${deckId}/${ni}`);
+    setHash(`#deck-${deckId}-${ni}`);
     route();
     window.scrollTo(0, 0);
   };
@@ -230,7 +235,7 @@ function speciesCard(s) {
   const stat4 = s.hunt
     ? `<div><dt>Difficulty</dt><dd>${DIFFICULTY[s.hunt.difficulty]}</dd></div>`
     : `<div><dt>Seen</dt><dd>${s.abundance[0].toUpperCase() + s.abundance.slice(1)}</dd></div>`;
-  const look = s.lookAlikes.map((l) => `<li>${l.id && BY_ID[l.id] ? `<a href="#/fish/${l.id}">${esc(l.name)}</a>` : `<b>${esc(l.name)}</b>`}<span>${esc(l.tell)}</span></li>`).join('');
+  const look = s.lookAlikes.map((l) => `<li>${l.id && BY_ID[l.id] ? `<a href="#sp-${l.id}">${esc(l.name)}</a>` : `<b>${esc(l.name)}</b>`}<span>${esc(l.tell)}</span></li>`).join('');
   return `
   <article class="card" aria-labelledby="sp-name">
     <div class="gallery">
@@ -372,7 +377,7 @@ function openSearch() {
     const hits = hay.filter(([, h]) => !q || q.split(/\s+/).every((w) => h.includes(w))).map(([s]) => s);
     out.innerHTML = hits.length ? hits.map((s) => {
       const p = photoOf(s);
-      return `<li><a href="#/fish/${s.id}">${p ? `<img src="${esc(p.thumb || p.src)}" alt="" loading="lazy">` : '<span class="ph"></span>'}
+      return `<li><a href="#sp-${s.id}">${p ? `<img src="${esc(p.thumb || p.src)}" alt="" loading="lazy">` : '<span class="ph"></span>'}
         <span class="txt"><b>${esc(s.name)}</b><i>${esc(s.sci)}${s.bahamian ? ' · ' + esc(s.bahamian) : ''}</i></span>${badge(s)}</a></li>`;
     }).join('') : '<li class="empty">No fish match that search.</li>';
   };
@@ -454,7 +459,7 @@ function renderFishId() {
     view.querySelector('.fb').innerHTML = `<div class="feedback" role="status">
       <div class="verdict-line">${ok ? 'Correct:' : 'It’s a'} ${esc(s.name)} ${badge(s)}</div>
       <p>${esc(s.note)}</p>
-      <div class="actions"><a class="ghost-btn" href="#/fish/${s.id}">Open card</a><button class="primary-btn" data-next>Next fish</button></div></div>`;
+      <div class="actions"><a class="ghost-btn" href="#sp-${s.id}">Open card</a><button class="primary-btn" data-next>Next fish</button></div></div>`;
     view.querySelector('[data-next]').addEventListener('click', () => { renderFishId(); window.scrollTo(0, 0); });
     view.querySelector('[data-next]').focus({ preventScroll: true });
   });
@@ -519,7 +524,7 @@ function renderFishInfo() {
     view.querySelector('.fb').innerHTML = `<div class="feedback" role="status">
       <div class="verdict-line">${ok ? 'Correct' : 'Not quite'}${s ? ' ' + badge(s) : ''}</div>
       <p>${ok ? '' : `Answer: <b>${esc(correct)}</b>. `}${esc(q.why || '')}</p>
-      <div class="actions">${s ? `<a class="ghost-btn" href="#/fish/${s.id}">Open card</a>` : '<a class="ghost-btn" href="#/rules">Rules</a>'}<button class="primary-btn" data-next>Next question</button></div></div>`;
+      <div class="actions">${s ? `<a class="ghost-btn" href="#sp-${s.id}">Open card</a>` : '<a class="ghost-btn" href="#rules">Rules</a>'}<button class="primary-btn" data-next>Next question</button></div></div>`;
     view.querySelector('[data-next]').addEventListener('click', () => { renderFishInfo(); window.scrollTo(0, 0); });
     view.querySelector('[data-next]').focus({ preventScroll: true });
   });
@@ -547,8 +552,8 @@ function renderRules() {
     <h1 class="page-title">Bahamas rules</h1>
     <p class="page-sub">Spearfishing and catch rules for visitors around Grand Cay, Abaco.</p>
     <div class="season" style="margin-top:12px">
-      <a href="#/fish/nassau-grouper"><b>Nassau grouper</b><span class="state ${grouper.open ? 'open' : 'closed'}">${grouper.open ? 'Open' : 'Closed'}</span><small>${esc(grouper.text.split(' · ')[1])}</small></a>
-      <a href="#/fish/spiny-lobster"><b>Crawfish</b><span class="state ${craw.open ? 'open' : 'closed'}">${craw.open ? 'Open' : 'Closed'}</span><small>${esc(craw.text.split(' · ')[1])}</small></a>
+      <a href="#sp-nassau-grouper"><b>Nassau grouper</b><span class="state ${grouper.open ? 'open' : 'closed'}">${grouper.open ? 'Open' : 'Closed'}</span><small>${esc(grouper.text.split(' · ')[1])}</small></a>
+      <a href="#sp-spiny-lobster"><b>Crawfish</b><span class="state ${craw.open ? 'open' : 'closed'}">${craw.open ? 'Open' : 'Closed'}</span><small>${esc(craw.text.split(' · ')[1])}</small></a>
     </div>
     ${RULES.map((r) => `<section class="panel"><h2>${esc(r.title)}</h2><ul>${r.items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></section>`).join('')}
     <div class="warning"><b>Check before you fish.</b> This is a summary from government, conservation and travel sources, some of them several years old. The Fisheries Act, 2020 replaced the old law, and limits and fees change. Confirm with the Department of Marine Resources or your customs officer when you clear in.</div>
@@ -558,6 +563,6 @@ function renderRules() {
 
 /* ---------------- boot ---------------- */
 route();
-if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
+if ('serviceWorker' in navigator && document.documentElement.dataset.host !== 'artifact' && (location.protocol === 'https:' || location.hostname === 'localhost')) {
   window.addEventListener('load', () => navigator.serviceWorker.register('./sw.js').catch(() => {}));
 }
