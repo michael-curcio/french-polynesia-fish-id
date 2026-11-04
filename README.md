@@ -15,7 +15,7 @@ A sister app for Grand Cay, Abaco, in the northern Bahamas, served at `/grand-ca
 - **Fish Info:** questions on rules, safety, hunting, ID and eating.
 - **Rules:** the Bahamas rules in one place, with sources.
 
-It is plain HTML, CSS and JavaScript modules with no build step: edit the files in `grand-cay/` directly. Species text lives in `grand-cay/js/data/*.js`. `grand-cay/js/data/photos.js` and `grand-cay/precache.json` are generated from the iNaturalist open-data export, using only CC0, CC BY and CC BY-SA photos; each photo's author and licence are shown in the app and link to the original. When you change app files, bump `VERSION` in `grand-cay/sw.js` so phones pick up the update.
+It is plain HTML, CSS and JavaScript modules with no build step: edit the files in `grand-cay/` directly. Species text lives in `grand-cay/js/data/*.js`. `grand-cay/js/data/photos.js` and `grand-cay/precache.json` are generated from the iNaturalist open-data export. Each photo's author and licence are shown in the app and link to the original. Some photos are CC BY-NC (non-commercial), so the Grand Cay app is for personal use; remove those before any commercial use. When you change app files, bump `VERSION` in `grand-cay/sw.js` so phones pick up the update.
 
 The root `sw.js` skips `/grand-cay/` in its navigation fallback, so the French Polynesia app doesn't take over the Grand Cay URL. If you rebuild the French Polynesia app, keep that rule (in vite-plugin-pwa: `workbox.navigateFallbackDenylist: [/\/grand-cay(\/|$)/]`).
 

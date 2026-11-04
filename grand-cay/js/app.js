@@ -176,7 +176,7 @@ function renderHome() {
       <div class="tile-text"><strong>Spearfishing rules</strong><span>What you need to know before you dive</span>
       <ul><li>Sling or pole spear only</li><li>No scuba</li><li>200 yards from shore</li><li>No parks</li></ul></div>
     </a>
-    <p class="fineprint">Rules summarised from Bahamian government and conservation sources; they change, so check with the Department of Marine Resources before you fish. Photos from iNaturalist under CC0, CC BY and CC BY-SA licences; each photo is credited.</p>
+    <p class="fineprint">Rules summarised from Bahamian government and conservation sources; they change, so check with the Department of Marine Resources before you fish. Photos by iNaturalist observers; each photo shows its author and licence. For personal use.</p>
   `;
 }
 
@@ -558,7 +558,7 @@ function renderRules() {
     ${RULES.map((r) => `<section class="panel"><h2>${esc(r.title)}</h2><ul>${r.items.map((i) => `<li>${esc(i)}</li>`).join('')}</ul></section>`).join('')}
     <div class="warning"><b>Check before you fish.</b> This is a summary from government, conservation and travel sources, some of them several years old. The Fisheries Act, 2020 replaced the old law, and limits and fees change. Confirm with the Department of Marine Resources or your customs officer when you clear in.</div>
     <section class="panel"><h2>Sources</h2><ul class="sources">${SOURCES.map((s) => `<li><a href="${esc(s.url)}" target="_blank" rel="noreferrer">${esc(s.label)}</a></li>`).join('')}</ul></section>
-    <p class="fineprint">Fish photos come from iNaturalist observers under CC0, CC BY and CC BY-SA licences; each photo shows its author and licence and links to the original.</p>`;
+    <p class="fineprint">Fish photos come from iNaturalist observers; each photo shows its author and licence and links to the original. Some licences are non-commercial, so this app is for personal use.</p>`;
 }
 
 /* ---------------- boot ---------------- */
