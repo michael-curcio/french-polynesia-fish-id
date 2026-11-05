@@ -1,4 +1,4 @@
-import { SPECIES, BY_ID, GROUPS, DECKS, VERDICTS, RISK, DIFFICULTY, RULE_STATUS, RULES, SOURCES, QUESTIONS } from './data/index.js';
+import { SPECIES, BY_ID, GROUPS, DECKS, VERDICTS, RISK, DIFFICULTY, RULE_STATUS, RULES, SOURCES, QUESTIONS, RECORDS_CHECKED, RECORDS_NOTE } from './data/index.js';
 
 /* ---------------- helpers ---------------- */
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -226,6 +226,33 @@ function renderDeck(deckId, index) {
   cleanup = () => { document.removeEventListener('keydown', onKey); off(); gallery(); };
 }
 
+/* Pole spear (IUSA Sling/Polespear) world records, men's and women's divisions. */
+function recordLine(r, label) {
+  const year = r.date ? r.date.slice(0, 4) : '';
+  const who = [r.holder, r.place, year].filter(Boolean).map(esc).join(' · ');
+  return `<p class="rec-line"><span class="rec-div">${label}</span><b>${num(r.kg)} kg</b> <span class="rec-lb">(${num(r.lb)} lb)</span>
+    <span class="rec-who">${who}${r.url ? ` · <a href="${esc(r.url)}" target="_blank" rel="noreferrer">IUSA</a>` : ''}</span></p>`;
+}
+function recordCell(s) {
+  const rec = s.records;
+  let body;
+  if (rec && (rec.men || rec.women)) {
+    body = (rec.men ? recordLine(rec.men, 'Men') : '') + (rec.women ? recordLine(rec.women, 'Women') : '');
+    if (!rec.men) body += '<p class="rec-none">Men: none found</p>';
+    if (!rec.women) body += '<p class="rec-none">Women: none found</p>';
+  } else if (rec && rec.note) {
+    body = `<p class="rec-none">${esc(rec.note)}</p>`;
+  } else if (s.verdict === 'protected') {
+    body = '<p class="rec-none">Protected: no records allowed</p>';
+  } else if (!RECORDS_CHECKED) {
+    body = '<p class="rec-none">Not added yet</p>';
+  } else {
+    body = '<p class="rec-none">None found yet</p>';
+  }
+  const foot = RECORDS_CHECKED && s.verdict !== 'protected' ? `<p class="rec-src">${esc(RECORDS_NOTE)}</p>` : '';
+  return `<div class="wide"><dt>Pole spear world record</dt><dd class="rec">${body}${foot}</dd></div>`;
+}
+
 function speciesCard(s) {
   const group = GROUPS.find((g) => g.id === s.group);
   const names = [];
@@ -259,6 +286,7 @@ function speciesCard(s) {
         <div><dt>Depth</dt><dd>${range(s.depth, 'm')}</dd></div>
         ${stat4}
         <div><dt>Ciguatera</dt><dd>${s.eat.rating === 0 && s.eat.cig === 'unknown' ? '<span class="risk" data-risk="unknown">n/a</span>' : riskTag(s.eat.cig)}</dd></div>
+        ${recordCell(s)}
       </dl>
       <div class="rulebox">
         <div class="row"><strong>Rules</strong><span class="pill" data-status="${s.rules.status}">${RULE_STATUS[s.rules.status]}</span>${season ? `<span class="season-now ${season.open ? 'open' : 'closed'}">${esc(season.text)}</span>` : ''}</div>

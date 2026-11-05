@@ -4,9 +4,11 @@ import reef from './reef.js';
 import flatsShellfish from './flats-shellfish.js';
 import sharksHazards from './sharks-hazards.js';
 import PHOTOS from './photos.js';
+import RECORDS, { CHECKED as RECORDS_CHECKED, NOTE as RECORDS_NOTE } from './records.js';
 
+export { RECORDS_CHECKED, RECORDS_NOTE };
 export const SPECIES = [...blueWater, ...groupersSnappers, ...reef, ...flatsShellfish, ...sharksHazards]
-  .map((s) => ({ ...s, photos: PHOTOS[s.id] || [] }));
+  .map((s) => ({ ...s, photos: PHOTOS[s.id] || [], records: RECORDS[s.id] || null }));
 
 export const BY_ID = Object.fromEntries(SPECIES.map((s) => [s.id, s]));
 
@@ -105,6 +107,7 @@ export const SOURCES = [
   { label: 'Tribune242: species that can\'t be brought into US waters', url: 'https://tribune242.com/news/2016/sep/15/da-hook' },
   { label: 'Eyewitness News: doctor warns against eating barracuda', url: 'https://ewnews.com/?p=90619' },
   { label: 'Perry Institute: parrotfish decline in the Bahamas', url: 'https://perryinstitute.org/new-research-shows-alarming-decline-in-parrotfish-densities-around-new-providence-and-rose-island' },
+  { label: 'IUSA spearfishing world records (Sling/Polespear division)', url: 'https://www.iusarecords.com/RecordsWorld.aspx' },
   { label: 'Fisheries Act, 2020 (Ecolex)', url: 'https://www.ecolex.org/details/legislation/fisheries-act-2020-no-40-of-2020-lex-faoc211803/' }
 ];
 
@@ -172,5 +175,7 @@ export const QUESTIONS = [
   { topic: 'behavior', species: 'nassau-grouper', q: 'Why does Nassau grouper season close in winter?', options: ['They gather at a few spawning sites around winter full moons', 'They migrate to Florida', 'They go too deep to find', 'Their meat is toxic in winter'], why: 'Whole aggregations can be wiped out in days.' },
   { topic: 'behavior', species: 'stoplight-parrotfish', q: 'Why leave parrotfish alone?', options: ['They graze algae that would smother coral', 'They are toxic', 'They are illegal to take', 'They bite divers'], why: 'Bahamian parrotfish numbers are falling.' },
   { topic: 'behavior', species: 'tiger-shark', q: 'Where off the northern Bahamas is famous for tiger sharks?', options: ['Tiger Beach, off Grand Bahama', 'Exuma Cays Land and Sea Park', 'Nassau Harbour', 'Bimini Road'], why: 'Tigers roam the Little Bahama Bank.' },
+  { topic: 'hunting', species: 'mutton-snapper', q: 'Where was the men\'s sling/polespear mutton snapper world record (17.2 lb) speared?', options: ['Strangers Cay, Abaco', 'Bimini', 'The Florida Keys', 'Exuma'], why: 'Brian Kirkpatrick, July 2016, with a Hawaiian sling: about 20 miles from Grand Cay.' },
+  { topic: 'legal', species: 'nassau-grouper', q: 'Can a Nassau grouper set an IUSA spearfishing world record?', options: ['No: IUSA bars it as endangered', 'Yes, if it\'s over 3 lb', 'Only with a pole spear', 'Only outside the closed season'], why: 'IUSA lists endangered species as ineligible for records.' },
   { topic: 'behavior', species: 'spiny-lobster', q: 'When do crawfish come out of their holes to feed?', options: ['At night', 'At midday', 'Only at low tide', 'Only in summer'], why: 'By day only the antennae show.' }
 ];

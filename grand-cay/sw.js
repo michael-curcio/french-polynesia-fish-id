@@ -1,7 +1,7 @@
 // Offline support for Grand Cay Fish ID.
 // App files: network first (so updates arrive), cache fallback when offline.
 // Photos, fonts, icons: cache first. All photos are cached on install so the app works offline.
-const VERSION = '2026-11-04.2';
+const VERSION = '2026-11-05.1';
 const SHELL_CACHE = 'gcfi-shell-' + VERSION;
 const MEDIA_CACHE = 'gcfi-media-v1';
 const SHELL = [
@@ -17,6 +17,7 @@ const SHELL = [
   './js/data/flats-shellfish.js',
   './js/data/sharks-hazards.js',
   './js/data/photos.js',
+  './js/data/records.js',
   './fonts/inter-latin-wght.woff2',
   './fonts/inter-latin-ext-wght.woff2',
   './fonts/barlow-condensed-600.woff2',

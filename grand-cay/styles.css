@@ -332,6 +332,16 @@ img { display: block; max-width: 100%; }
 .stats dt { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-subtle); }
 .stats dd { margin: 2px 0 0; font-family: var(--font-display); font-weight: 700; font-size: 1.45rem; line-height: 1.15; }
 .stats dd .risk { font-family: var(--font-body); font-size: 1.05rem; }
+.stats > .wide { grid-column: 1 / -1; border-right: 0 !important; }
+.stats dd.rec { font-family: var(--font-body); font-size: 0.95rem; font-weight: 400; line-height: 1.4; display: grid; gap: 6px; margin-top: 4px; }
+.rec-line { margin: 0; display: flex; flex-wrap: wrap; align-items: baseline; column-gap: 6px; }
+.rec-line b { font-family: var(--font-display); font-size: 1.45rem; font-weight: 700; line-height: 1.1; }
+.rec-div { font-size: 0.72rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; color: var(--text-subtle); min-width: 3.6em; }
+.rec-lb { color: var(--text-muted); font-variant-numeric: tabular-nums; }
+.rec-who { flex-basis: 100%; padding-left: calc(3.6em + 6px); color: var(--text-muted); font-size: 0.85rem; min-width: 0; }
+.rec-who a { color: var(--accent); }
+.rec-none { margin: 0; color: var(--text-muted); }
+.rec-src { margin: 2px 0 0; color: var(--text-subtle); font-size: 0.75rem; }
 .rulebox { background: var(--surface-2); border: 1px solid var(--border); border-radius: var(--radius-lg); padding: 12px 14px; margin-top: 14px; }
 .rulebox .row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
 .rulebox .row strong { font-size: 0.95rem; }
