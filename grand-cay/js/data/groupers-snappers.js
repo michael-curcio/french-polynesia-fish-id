@@ -346,7 +346,7 @@ export default [
     verdict: 'target',
     note: 'The biggest snapper in the Atlantic. A trophy, but don\'t eat a big one.',
     abundance: 'rare',
-    size: { kg: [10, 30], cm: [80, 120], maxKg: 57 },
+    size: { kg: [10, 30], cm: [80, 120], maxKg: 59 },
     depth: [10, 40],
     features: [
       'Huge, heavy snapper; dark grey to reddish-brown',

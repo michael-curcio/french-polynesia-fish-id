@@ -30,6 +30,9 @@ export default {
   'almaco-jack': {
     men: { kg: 19.8, lb: 43.6, holder: 'Peter Correale', place: 'Panama', date: '2016-04-29', url: 'https://www.iusarecords.com/ViewRecord.aspx?id=848' }
   },
+  'cubera-snapper': {
+    men: { kg: 59.0, lb: 130.0, holder: 'Luke Maillis', place: '', date: '2018-04-25', url: 'https://www.iusarecords.com/FishRecordsDetail.aspx?SpeciesID=71' }
+  },
   'wahoo': {
     men: { kg: 40.5, lb: 89.3, holder: 'Judd Rosen', place: '', date: '', url: 'https://www.iusarecords.com/FishRecordsDetail.aspx?SpeciesID=275' }
   },
