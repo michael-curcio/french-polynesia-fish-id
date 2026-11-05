@@ -1,4 +1,4 @@
-import { SPECIES, BY_ID, GROUPS, DECKS, VERDICTS, RISK, DIFFICULTY, RULE_STATUS, RULES, SOURCES, QUESTIONS, RECORDS_CHECKED } from './data/index.js';
+import { SPECIES, BY_ID, GROUPS, DECKS, VERDICTS, RISK, DIFFICULTY, RULE_STATUS, RULES, SOURCES, QUESTIONS, RECORDS_CHECKED, RECORDS_NOTE } from './data/index.js';
 
 /* ---------------- helpers ---------------- */
 const $ = (sel, root = document) => root.querySelector(sel);
@@ -238,14 +238,19 @@ function recordCell(s) {
   let body;
   if (rec && (rec.men || rec.women)) {
     body = (rec.men ? recordLine(rec.men, 'Men') : '') + (rec.women ? recordLine(rec.women, 'Women') : '');
+    if (!rec.men) body += '<p class="rec-none">Men: none found</p>';
+    if (!rec.women) body += '<p class="rec-none">Women: none found</p>';
+  } else if (rec && rec.note) {
+    body = `<p class="rec-none">${esc(rec.note)}</p>`;
   } else if (s.verdict === 'protected') {
     body = '<p class="rec-none">Protected: no records allowed</p>';
   } else if (!RECORDS_CHECKED) {
     body = '<p class="rec-none">Not added yet</p>';
   } else {
-    body = '<p class="rec-none">No record set yet</p>';
+    body = '<p class="rec-none">None found yet</p>';
   }
-  return `<div class="wide"><dt>Pole spear world record</dt><dd class="rec">${body}</dd></div>`;
+  const foot = RECORDS_CHECKED && s.verdict !== 'protected' ? `<p class="rec-src">${esc(RECORDS_NOTE)}</p>` : '';
+  return `<div class="wide"><dt>Pole spear world record</dt><dd class="rec">${body}${foot}</dd></div>`;
 }
 
 function speciesCard(s) {
