@@ -4,9 +4,11 @@ import reef from './reef.js';
 import flatsShellfish from './flats-shellfish.js';
 import sharksHazards from './sharks-hazards.js';
 import PHOTOS from './photos.js';
+import RECORDS, { CHECKED as RECORDS_CHECKED } from './records.js';
 
+export { RECORDS_CHECKED };
 export const SPECIES = [...blueWater, ...groupersSnappers, ...reef, ...flatsShellfish, ...sharksHazards]
-  .map((s) => ({ ...s, photos: PHOTOS[s.id] || [] }));
+  .map((s) => ({ ...s, photos: PHOTOS[s.id] || [], records: RECORDS[s.id] || null }));
 
 export const BY_ID = Object.fromEntries(SPECIES.map((s) => [s.id, s]));
 
