@@ -1,7 +1,7 @@
 // Offline support for San José del Cabo Dive.
 // App files: network first (so updates arrive), cache fallback when offline.
 // Photos, fonts, icons: cache first. All photos are cached on install so the app works offline.
-const VERSION = '2026-11-16.1';
+const VERSION = '2026-11-16.2';
 const SHELL_CACHE = 'sjdd-shell-' + VERSION;
 const MEDIA_CACHE = 'sjdd-media-v1';
 const SHELL = [
