@@ -17,6 +17,16 @@ A sister app for Grand Cay, Abaco, in the northern Bahamas, served at `/grand-ca
 
 It is plain HTML, CSS and JavaScript modules with no build step: edit the files in `grand-cay/` directly. Species text lives in `grand-cay/js/data/*.js`. `grand-cay/js/data/photos.js` and `grand-cay/precache.json` are generated from the iNaturalist open-data export. Each photo's author and licence are shown in the app and link to the original. Some photos are CC BY-NC (non-commercial), so the Grand Cay app is for personal use; remove those before any commercial use. When you change app files, bump `VERSION` in `grand-cay/sw.js` so phones pick up the update.
 
-The root `sw.js` skips `/grand-cay/` in its navigation fallback, so the French Polynesia app doesn't take over the Grand Cay URL. If you rebuild the French Polynesia app, keep that rule (in vite-plugin-pwa: `workbox.navigateFallbackDenylist: [/\/grand-cay(\/|$)/]`).
+## San José del Cabo Dive (`san-jose-del-cabo/`)
+
+A third app for diving and spearfishing around San José del Cabo, Baja California Sur, served at `/san-jose-del-cabo/`. It is built from the Grand Cay code, with:
+
+- **Study:** 50 species in six habitats (Bluewater & Gordo Banks, Groupers & Snappers, Rocky Reef, Beaches & Surf, Sharks & Rays, Protected & Hazards), plus Trophy targets, El Niño this week and Leave it decks. Cards show Spanish names, El Niño notes, IUSA pole spear records and, where found, Mexico speargun records.
+- **This week:** NOAA's El Niño status, ocean and weather notes, what's running, a seven-day sunrise, sunset and moon table computed on the device, and eight dive sites marked spearfishing OK, no-take or ask locally. Update the conditions text in `san-jose-del-cabo/js/data/week.js`.
+- **Fish ID, Fish Info and Rules:** the quizzes, plus Mexico's spearfishing rules (NOM-017-PESC-1994) with sources.
+
+It keeps its own storage keys and offline caches, so it doesn't clash with the Grand Cay app on the same site.
+
+The root `sw.js` skips `/grand-cay/` and `/san-jose-del-cabo/` in its navigation fallback, so the French Polynesia app doesn't take over those URLs. If you rebuild the French Polynesia app, keep that rule (in vite-plugin-pwa: `workbox.navigateFallbackDenylist: [/\/(grand-cay|san-jose-del-cabo)(\/|$)/]`).
 
 The rules are a summary, not legal advice. Check with the Bahamas Department of Marine Resources before you fish.
