@@ -1,0 +1,17 @@
+{
+  "name": "San José del Cabo Dive",
+  "short_name": "SJD Dive",
+  "description": "Dive and spearfish San José del Cabo: fish ID, Mexico rules, dive sites and this week's El Niño conditions.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#f5f6f8",
+  "theme_color": "#ffffff",
+  "lang": "en",
+  "icons": [
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
